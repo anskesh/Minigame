@@ -54,7 +54,7 @@ while(player_room != 'I'):
         player_room = get_keys(p_doorInput, player_room)
         if ((player_room in exception) and (player_room not in player_openrooms)) or ((player_room not in exception) and (player_openrooms.count(player_room) < 2)):
             #отредактировала условие, чтобы в двух комнатах можно было получить 2 ключа, правда это можно ещё доработать
-						player_openrooms.append(player_room)
+	    player_openrooms.append(player_room)
             room_open += 1
             keys.append(room_open)
         game_room()
