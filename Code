@@ -1,0 +1,65 @@
+Game_dict = {'A':[1,2],'B':[1,3,4],'C':[3,5], 'D':[2,6,8],'E':[6,4,7,9],'F':[7,5,10],'G':[8,11],'H':[11,9,12],'I':[12,10,13]}
+room_open = 1
+player_room = 'A'
+player_openrooms =['A']
+keys = [1]
+
+def get_keys(door_num, player_room):
+    for key,value in Game_dict.items():
+        '''if value[0] == door_num: поменяла условие, чтобы можно было возвращаться в комнату, раньше нужно, чтобы первый элемент значения совпадал, но такое не всегда бывает
+            print(value[0])
+            if player_room != key:
+                return key'''
+        if (door_num in value) and (player_room != key):
+            return key
+
+def can_enter(p_input, player_room):
+    if(p_input in Game_dict[player_room]) and (p_input in keys):
+        return True
+    else:
+        return False
+
+def game_room():
+    map()
+    print('\n')
+    print('Вы в комнате:', player_room)
+    print('У вас есть ключи от дверей:', keys)
+    print('Какую дверь вы хотите открыть?', Game_dict[player_room], '\n')
+
+def wrong_dir():
+    print('\nВы не можете туда войти, выберете другую дверь', Game_dict[player_room], '\n')
+
+game = [['A – 1 – B – 3 – C'],
+        ['|       |       |'],
+        ['2       4       5'],
+        ['|       |       |'],
+        ['D - 6 – E - 7 - F'],
+        ['|       |       |'],
+        ['8       9      10'],
+        ['|       |       |'],
+        ['G - 11 -H- 12 - I —> 13'],]
+
+print('На карте буквами отмечены комнаты в которых находятся ключи, числами отмечены двери. Ваша задача выбраться из Рая через 13ю дверь.\n')
+
+def map():
+    for row in game:
+        print(*row)
+
+game_room()
+exception = ['A', 'B', 'C', 'D', 'G', 'H']
+while(player_room != 'I'):
+    p_doorInput = int(input())
+    check = can_enter(p_doorInput,player_room)
+    if(check == True):
+        player_room = get_keys(p_doorInput, player_room)
+        if ((player_room in exception) and (player_room not in player_openrooms)) or ((player_room not in exception) and (player_openrooms.count(player_room) < 2)):
+            #отредактировала условие, чтобы в двух комнатах можно было получить 2 ключа, правда это можно ещё доработать
+						player_openrooms.append(player_room)
+            room_open += 1
+            keys.append(room_open)
+        game_room()
+        print(player_openrooms)
+    else:
+        wrong_dir()
+
+print('Вы бог')
